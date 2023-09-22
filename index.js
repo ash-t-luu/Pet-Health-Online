@@ -6,12 +6,13 @@ if (process.env.NODE_ENV !== 'production') {
 //import dependencies 
 const express = require('express');
 const cors = require('cors');
+const morgan = require('morgan');
 const path = require('path');
-
-const pool = require('./connectToDb2');
+const cookieParser = require('cookie-parser');
 
 const app = express();
 
+const PORT = process.env.PORT || 4000;
 const routeHandlers = require('./server/middleware/routes');
 
 /* configurations for middlewares funcs */
@@ -19,13 +20,16 @@ const routeHandlers = require('./server/middleware/routes');
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+app.use(morgan('tiny'));
+app.use(cookieParser());
 
 // handle req for static files using path.resolve
+// app.use('/', express.static(join(__dirname, 'public')));
 
 // might need to change the first param to actual path
-app.use('/routes', routeHandlers);
+app.use('/', routeHandlers);
 
-app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
+// app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 
 app.use((err, req, res, next) => {
     const defaultErr = {
@@ -38,8 +42,8 @@ app.use((err, req, res, next) => {
     return res.status(errorObj.status).json(errorObj.message);
 });
 
-app.listen(process.env.PORT, () => {
-    console.log(`Listening on PORT ${process.env.PORT}`);
+app.listen(PORT, () => {
+    console.log(`Listening on PORT ${PORT}...`);
 });
 
 module.exports = app;
