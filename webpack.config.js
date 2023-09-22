@@ -2,13 +2,13 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: 'production',
+    mode: process.env.NODE_ENV,
     entry: {
         src: './client/fe-index.js'
     },
     output: {
-        filename: 'bundle.[contenthash].js',
-        path: path.resolve(__dirname, 'dist')
+        filename: 'bundle.js',
+        path: path.join(__dirname, 'dist')
     },
 
     module: {
@@ -21,7 +21,7 @@ module.exports = {
                 },
             },
             {
-                test: /\.s?css/i,
+                test: /\.s?css/,
                 use: [
                     'style-loader', 'css-loader', 'sass-loader'
                 ],
@@ -34,10 +34,10 @@ module.exports = {
             template: 'index.html'
         }),
     ],
-    // devServer: {
-    //     static: {
-    //         publicPath: '/dist',
-    //         directory: path.resolve(__dirname, 'build')
-    //     },
-    // },
+    devServer: {
+        static: {
+            publicPath: '/dist',
+            directory: path.resolve(__dirname, 'dist')
+        },
+    },
 }
