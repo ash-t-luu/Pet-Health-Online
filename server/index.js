@@ -13,7 +13,7 @@ const cookieParser = require('cookie-parser');
 const app = express();
 
 const PORT = process.env.PORT || 4000;
-const routeHandlers = require('./server/middleware/routes');
+const routeHandlers = require('./middleware/routes');
 
 /* configurations for middlewares funcs */
 
