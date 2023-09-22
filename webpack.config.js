@@ -2,9 +2,9 @@ const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
-    mode: proccess.env.NODE_ENV,
+    mode: 'production',
     entry: {
-        src: './client/index.js'
+        src: './client/fe-index.js'
     },
     output: {
         filename: 'bundle.[contenthash].js',
