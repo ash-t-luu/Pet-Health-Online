@@ -26,16 +26,15 @@ app.use(cookieParser());
 // handle req for static files using path.resolve
 // app.use('/', express.static(join(__dirname, 'public')));
 
-// statically serve everything in the build folder on the route '/build'
-app.use('/dist', express.static(path.join(__dirname, './dist')));
+app.use(express.static(path.join(__dirname, 'dist')));
+
 // serve index.html on the route '/'
 app.get('/', (req, res) => {
-    // res.setHeader('Content-Type', 'text/javascript');
-    return res.status(200).sendFile(path.join(__dirname, './index.html'));
+    return res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 // might need to change the first param to actual path
-app.use('/', routeHandlers);
+// app.use('/pets', routeHandlers);
 
 // app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 

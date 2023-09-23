@@ -3,18 +3,16 @@ const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
     mode: process.env.NODE_ENV,
-    entry: {
-        src: './client/fe-index.js'
-    },
+    entry: './client/fe-index.js',
     output: {
         filename: 'bundle.js',
-        path: path.join(__dirname, 'dist')
+        path: path.join(__dirname, 'dist'),
     },
-
+    devtool: 'source-map',
     module: {
         rules: [
             {
-                test: /\.jsx?/,
+                test: /\.(js|jsx)$/,
                 exclude: /node-modules/,
                 use: {
                     loader: 'babel-loader'
@@ -31,13 +29,16 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             title: 'Development',
-            template: 'index.html'
+            template: './public/index.html'
         }),
     ],
     devServer: {
+        port: 5000,
         static: {
-            publicPath: '/dist',
-            directory: path.resolve(__dirname, 'dist')
+            directory: path.join(__dirname, 'public')
+        },
+        proxy: {
+            '/': 'http://localhost:3000'
         },
     },
 }

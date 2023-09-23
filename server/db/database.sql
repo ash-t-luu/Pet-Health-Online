@@ -9,8 +9,7 @@ CREATE TABLE pet(
     breed VARCHAR NOT NULL,
     gender TEXT NOT NULL,
     weight_lb INTEGER NOT NULL,
-
-    owner_id INT REFERNECES users(user_id)
+    pet_id INTEGER REFERNECES pet (pet_id)
 );
 
 CREATE TABLE health_record(
@@ -31,11 +30,11 @@ CREATE TABLE veterinarian(
 )
 
 CREATE TABLE owner(
-    owner_id SERIAL PRIMARY KEY,
-    username VARCHAR(200) NOT NULL,
-    email VARCHAR(200) NOT NULL,
-    password VARCHAR(200) NOT NULL,
-    UNIQUE (email)
+    owner_id uuid PRIMARY KEY DEFAULT uuid_generate_v4(),
+    user_name VARCHAR(200) NOT NULL,
+    user_email VARCHAR(200) NOT NULL UNIQUE ,
+    user_password VARCHAR(200) NOT NULL,
+    pet_id INTEGER REFERNECES pet (pet_id)
 );
     -- vet_id INTEGER REFERENCES veterinarian,
     -- pet_id INTEGER REFERENCES pet
@@ -65,6 +64,12 @@ VALUES ('Odie', '2007-03-10', 13, 'Dog', 'Cocker Spaniel Mix', 'M', 25);
 INSERT INTO pet (name, dob, age, species, breed, gender, weight_lb)
 VALUES ('Lilo', '2019-06-10', 2, 'Guinea Pig', 'Long-hair Guinea', 'F', 6);
 
+INSERT INTO owner (user_name, user_email, user_password, pet_id) 
+VALUES ('Jane Smith', 'jane504@gmail.com', 'password123', 4);
+
+INSERT INTO owner (user_name, user_email, user_password, pet_id) 
+VALUES ('John Doe', 'johnD@gmail.com', '123password', 5);
+
 ALTER TABLE pet
 ADD CONSTRAINT fk_owner_id
 FOREIGN KEY (owner_id) REFERENCES owner(owner_id);
@@ -78,3 +83,11 @@ ADD COLUMN pet_id INTEGER;
 ALTER TABLE owner
 ADD CONSTRAINT fk_pet_id
 FOREIGN KEY (pet_id) REFERENCES pet(pet_id);
+
+UPDATE pet
+SET owner_uuid = 'a7723ad9-360b-4d61-9179-56dec5bde09a'
+WHERE pet_id = 4;
+
+UPDATE pet
+SET owner_uuid = '8728ac7e-ea16-46ca-9ad0-a3e64e07dc93'
+WHERE pet_id = 5;
