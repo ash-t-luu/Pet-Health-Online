@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard.jsx';
@@ -14,37 +14,33 @@ import '../scss/App.scss';
 //layouts
 import RootLayout from '../layout/rootLayout.js';
 import RecordsLayout from '../layout/recordsLayout.js';
-import PetDashboardLayout from '../layout/petDBLayout.js';
-// links - a tags that will link to diff parts of app or useNavigate
-// can be accessed from top down bc its like provider store
-
-// pass into createBrowserRoute => use router provider 
-// { path: 'whatever path you want', element: <ComponentYouWantRendered /> }
+import HomeLayout from '../layout/homeLayout.js';
+import PetContainer from '../containers/PetContainers.jsx';
+import RegisterLayout from '../layout/registerLayout.js';
 
 const router = createBrowserRouter(
     createRoutesFromElements(
-        <Route path='/' element={<RootLayout />}>
-            {/* <Route path='/' element={<Dashboard />}>
-                <Route path='/' element={<Pets />}></Route>
-            </Route> */}
-            <Route path='/' element={<PetDashboardLayout />}>
-                {/* <Route path='/' element={<Dashboard />}></Route> */}
-                <Route path='/' element={<Pets />}></Route>
 
-            </Route>
-            <Route path='pet-records' element={<RecordsLayout />}>
-                <Route path='pet-health' element={<Pet_Health />}></Route>
-            </Route>
+        <Route path='/'>
+            <Route path='/' element={<HomeLayout />}></Route>
+            <Route path='register' element={<Register />}></Route>
 
-            <Route path='*' element={<NotFound />}></Route>
-        </Route>
+            <Route path='dashboard' element={<RootLayout />}>
+                <Route index element={<Dashboard />} />
+                <Route path='pet-records' element={<RecordsLayout />}>
+                    <Route path='pet-health' element={<Pet_Health />}></Route>
+                </Route>
+            </Route >
+        </Route >
     )
 );
 
 const App = () => {
-    return (
-        <RouterProvider router={router} />
 
+    return (
+        <div>
+            <RouterProvider router={router} />
+        </div>
     );
 };
 

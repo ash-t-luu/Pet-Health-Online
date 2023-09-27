@@ -24,9 +24,9 @@ app.use(morgan('tiny'));
 app.use(cookieParser());
 
 // handle req for static files using path.resolve
-// app.use('/', express.static(join(__dirname, 'public')));
+app.use('/public', express.static(path.join(__dirname, 'public')));
 
-app.use(express.static(path.join(__dirname, 'dist')));
+// app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
 // serve index.html on the route '/'
 app.get('/', (req, res) => {
@@ -34,7 +34,7 @@ app.get('/', (req, res) => {
 });
 
 // might need to change the first param to actual path
-// app.use('/pets', routeHandlers);
+app.use('/pets', routeHandlers);
 
 // app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 

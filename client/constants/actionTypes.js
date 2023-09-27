@@ -1,4 +1,7 @@
-// export const ADD_MARKET = 'ADD_MARKET';
-// export const ADD_CARD = 'ADD_CARD';
-// export const SET_NEW_LOCATION = 'SET_NEW_LOCATION';
-// export const DELETE_CARD = 'DELETE_CARD';
+export const FETCH_PET_DATA = 'FETCH_PET_DATA';
+export const FETCH_PET_DATA_SUCCESS = 'FETCH_PET_DATA_SUCCESS';
+export const FETCH_PET_DATA_ERROR = 'FETCH_PET_DATA_ERROR';
+
+export const ADD_PET = 'ADD_PET';
+export const UPDATE_PET = 'UPDATE_PET';
+export const DELETE_PET = 'DELETE_PET';

@@ -1,25 +1,31 @@
-// import * as types from '../constants/actionTypes';
+import * as types from '../constants/actionTypes';
 
-// export const addCardActionCreator = marketId => ({
-//   type: types.ADD_CARD,
-//   payload: marketId,
-// });
+export const fetchPetDataCreator = () => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: types.FETCH_PET_DATA });
+            const res = await fetch('/pets');
+            const data = await res.json();
+            dispatch({ type: types.FETCH_PET_DATA_SUCCESS, payload: data });
+        } catch (error) {
+            dispatch({ type: types.FETCH_PET_DATA_ERROR, payload: error });
+        }
+    };
+};
 
-// //add market
-// //market func can just increment some values but not necessarily have a payload
-// export const addMarketCreator = marketBox => ({
-//   type: types.ADD_MARKET,
-//   payload: marketBox,
-// });
+export const addPetCreator = data => ({
+    type: types.ADD_PET,
+    payload: data,
+});
 
-// //set new location
-// export const setNewLocation = marketLocation => ({
-//   type: types.SET_NEW_LOCATION,
-//   payload: marketLocation,
-// });
+//update existing pet data
+export const updatePetCreator = data => ({
+    type: types.UPDATE_PET,
+    payload: data,
+});
 
-// //delete card
-// export const deleteCardActionCreator = marketId => ({
-//   type: types.DELETE_CARD,
-//   payload: marketId,
-// });
+//delete pet
+export const deletePetCreator = (pet_id) => ({
+    type: types.DELETE_PET,
+    payload: pet_id,
+});

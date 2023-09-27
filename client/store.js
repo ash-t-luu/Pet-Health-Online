@@ -1,10 +1,18 @@
-// import { configureStore } from '@reduxjs/toolkit';
-// import { composeWithDevTools } from 'redux-devtools-extension';
-// import reducers from './reducers/combineReducers';
+import { configureStore } from '@reduxjs/toolkit';
+import { composeWithDevTools } from 'redux-devtools-extension';
+// import petReducer from './reducers/petSlice';
 
-// const store = configureStore(
-//     reducers,
-//     composeWithDevTools()
-// );
+import { createStore, applyMiddleware } from 'redux';
+import thunk from 'redux-thunk';
+import reducers from './reducers/combineReducers';
 
-// export default store;
+// const store = configureStore({
+//     reducer: reducers
+// });
+
+const store = createStore(
+    reducers,
+    applyMiddleware(thunk)
+);
+
+export default store;

@@ -3,7 +3,7 @@ const pool = require('../db/connectToDb');
 const petController = {};
 
 petController.getPets = async (req, res, next) => {
-    const petData = `SELECT * FROM pet`;
+    const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet`;
 
     try {
         //await query to return promise
@@ -67,9 +67,7 @@ petController.addPet = async (req, res, next) => {
 };
 
 petController.updatePet = async (req, res, next) => {
-    //id = access the id we are targeting using req.query.id
     const id = req.params.id;
-    //deconstruct new info wanted in req.body
     const value = req.body;
 
     //edge case: if there is one attribute to update in req.body
@@ -86,10 +84,8 @@ petController.updatePet = async (req, res, next) => {
     const setClause = columnsToUpdate.map((col, i) => `${col} = ${valuesToUpdate[i]}`).join(', ');
     // console.log('set', setClause); = weight_lb = $1, age = $2
 
-    //clause = db.query what needs to be selected in the table WHERE _id = $1
     const query = `UPDATE pet SET ${setClause} WHERE pet_id = $${columnsToUpdate.length + 1}`;
 
-    //create a values with an array 
     const queryValues = [...Object.values(value), id];
     // console.log('arr', queryValues); [11, 3, '6']
 
@@ -112,19 +108,19 @@ petController.updatePet = async (req, res, next) => {
 };
 
 petController.deletePet = async (req, res, next) => {
-    //select the req.params.id again?
     const id = req.params.id;
-
+    console.log('id in backend', id);
     //this time we just want to delete the pet
-    const query = `DELETE FROM pet WHERE pet_id = $1`
+    const query = `DELETE FROM pet WHERE pet_id = $1`;
 
     try {
         const result = await pool.query(query, [id]);
         if (result.rowCount === 0) {
             res.status(404).json({ message: 'Could not find pet' });
         }
-        return res.status(204).send();
+        return next();
     } catch (error) {
+        console.error(`petController.deletePet: ERROR: ${error}`);
         return next({
             log: `petController.deletePet: ERROR: ${error}`,
             message: {

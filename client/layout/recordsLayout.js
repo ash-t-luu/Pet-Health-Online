@@ -8,7 +8,6 @@ const RecordsLayout = () => {
             <p>Choose from the drop down menu to display your pet's health records</p>
             <NavLink to="pet-health">Choose Your Pet</NavLink>
 
-
             <main>
                 <Outlet />
             </main>

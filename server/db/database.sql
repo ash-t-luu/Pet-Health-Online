@@ -36,8 +36,13 @@ CREATE TABLE owner(
     user_password VARCHAR(200) NOT NULL,
     pet_id INTEGER REFERNECES pet (pet_id)
 );
-    -- vet_id INTEGER REFERENCES veterinarian,
-    -- pet_id INTEGER REFERENCES pet
+
+CREATE TABLE owner_pet (
+    owner_id uuid REFERENCES owner(owner_id),
+    pet_id serial REFERENCES pet(pet_id),
+    PRIMARY KEY (owner_id, pet_id)
+);
+
 
 CREATE TABLE medication(
     med_id SERIAL PRIMARY KEY,
@@ -69,6 +74,9 @@ VALUES ('Jane Smith', 'jane504@gmail.com', 'password123', 4);
 
 INSERT INTO owner (user_name, user_email, user_password, pet_id) 
 VALUES ('John Doe', 'johnD@gmail.com', '123password', 5);
+
+INSERT INTO owner (user_name, user_email, user_password, pet_id) 
+VALUES ('Julia H', 'catl0ver@yahoo.com', 'cats123', 12, 13);
 
 ALTER TABLE pet
 ADD CONSTRAINT fk_owner_id

@@ -37,6 +37,7 @@ module.exports = {
         static: {
             directory: path.join(__dirname, 'public')
         },
+        historyApiFallback: true,
         proxy: {
             '/': 'http://localhost:3000'
         },
