@@ -8,8 +8,10 @@ const HomeLayout = () => {
             <h1 id='home-h1'>Pet Health Online</h1>
             <div id='login-form-container'>
                 <Login />
-                <Link to='/register'>New User? Register Here</Link>
             </div>
+            {/* <div id='register-redirect'>
+                <Link to='/register'>New User? Register Here</Link>
+            </div> */}
             <main>
                 <Outlet />
             </main>

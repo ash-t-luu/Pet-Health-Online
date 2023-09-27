@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
+import Register from './Register.jsx';
+
+import '../scss/App.scss';
 
 const Login = () => {
     // Define state variables to store the email and password
@@ -49,30 +52,37 @@ const Login = () => {
     };
 
     return (
-        <div id='login-form'>
-            <h1>Login</h1>
+        <div className='wrapper'>
+            <div className='title'>Login</div>
             <form onSubmit={handleSubmit}>
-                <div>
-                    <label htmlFor="email">Email:</label>
+                <div className='field'>
+                    {/* <label htmlFor="email">Email:</label> */}
                     <input
                         type="text"
                         id="email"
                         name="email"
+                        placeholder='Email:'
                         value={formData.email}
                         onChange={handleInputChange}
                     />
                 </div>
-                <div>
-                    <label htmlFor="password">Password:</label>
+                <div className='field'>
+                    {/* <label htmlFor="password">Password:</label> */}
                     <input
                         type="password"
                         id="password"
                         name="password"
+                        placeholder='Password:'
                         value={formData.password}
                         onChange={handleInputChange}
                     />
                 </div>
-                <button type="submit">Login</button>
+                <div className="field">
+                    <button type="submit" className='login-btn' >Login</button>
+                </div>
+                <div className='link-to-p'>
+                    <p>New User? <Link to='/register'>Register Here</Link></p>
+                </div>
             </form>
         </div>
     );

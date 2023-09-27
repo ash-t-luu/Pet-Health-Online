@@ -1,5 +1,7 @@
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
+const autoprefixer = require('autoprefixer');
+
 
 module.exports = {
     mode: process.env.NODE_ENV,
@@ -21,7 +23,9 @@ module.exports = {
             {
                 test: /\.s?css/,
                 use: [
-                    'style-loader', 'css-loader', 'sass-loader'
+                    'style-loader', 'css-loader', 'sass-loader',
+                    // { loader: 'css-loader', options: { importLoaders: 1 } },
+                    // 'postcss-loader',
                 ],
             },
         ],

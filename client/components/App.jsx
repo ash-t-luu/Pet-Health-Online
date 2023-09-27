@@ -31,6 +31,7 @@ const router = createBrowserRouter(
                     <Route path='pet-health' element={<Pet_Health />}></Route>
                 </Route>
             </Route >
+            <Route path='*' element={<NotFound />}></Route>
         </Route >
     )
 );

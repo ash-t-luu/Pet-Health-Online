@@ -36,6 +36,8 @@ const Dashboard = props => {
         return <div>Loading Pets...</div>
     }
 
+
+
     return (
         <div className='pets-container'>
             <h1>Your Pets</h1>

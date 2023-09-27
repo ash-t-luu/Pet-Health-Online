@@ -1,37 +1,36 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { useLoaderData } from 'react-router-dom';
 import { deletePetCreator } from '../actions/actions';
 
 const Pets = props => {
 
     // console.log('props for id:', props.pet_id)
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
 
     //use console logs to see what im deleting
-    const handleDeleteClick = (e) => {
-        fetch(`/pets/${props.pet_id}`, {
-            method: 'DELETE',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-        })
-            // .then((res) => {
-            //     console.log('res', res)
-            //     if (res.status === 204) {
-            //         // return res.send('Successful: Deleted Pet');
-            //         return res.json();
-            //     } else {
-            //         throw new Error('Failed to delete pet');
-            //     }
-            // })
-            .then((data) => {
-                dispatch(deletePetCreator(data));
-            })
-            .catch((err) => {
-                console.error('DeletePet fetch: ERROR: ', err);
-            });
-    };
+    // const handleDeleteClick = (e) => {
+    //     fetch(`/pets/${props.pet_id}`, {
+    //         method: 'DELETE',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //         },
+    //     })
+    //         // .then((res) => {
+    //         //     console.log('res', res)
+    //         //     if (res.status === 204) {
+    //         //         // return res.send('Successful: Deleted Pet');
+    //         //         return res.json();
+    //         //     } else {
+    //         //         throw new Error('Failed to delete pet');
+    //         //     }
+    //         // })
+    //         .then((data) => {
+    //             dispatch(deletePetCreator(data));
+    //         })
+    //         .catch((err) => {
+    //             console.error('DeletePet fetch: ERROR: ', err);
+    //         });
+    // };
 
 
     return (
@@ -66,9 +65,9 @@ const Pets = props => {
                         <label htmlFor='weight'>WEIGHT (LB): </label>
                         <span id='weight'>{props.weight_lb}</span>
                     </p>
-                    <div>
+                    {/* <div>
                         <button pet_id={props.pet_id} onClick={handleDeleteClick}>Delete Pet</button>
-                    </div>
+                    </div> */}
                 </div>
             </div>
         </>
