@@ -39,7 +39,7 @@ const Register = () => {
             localStorage.setItem('token', parseRes.token);
 
             if (response.ok) {
-                navigate('/'); // Assuming you're using React Router
+                navigate('/');
             } else {
                 console.error('Registration failed');
             }
@@ -49,13 +49,13 @@ const Register = () => {
     };
 
     return (
-        <div class="container">
-            <div class="cover">
-                <div class="front">
+        <div className="container">
+            <div className="cover">
+                <div className="front">
                     <img src="/public/images/cat-with-human.png" alt="human carrying cat with love" />
-                    <div class="text">
-                        <span class="text-1">We're here for your  <br /> furry family members</span>
-                        <span class="text-2">Let's get connected.</span>
+                    <div className="text">
+                        <span className="text-1">We're here for your  <br /> furry family members</span>
+                        <span className="text-2">Let's get connected.</span>
                     </div>
                 </div>
             </div>

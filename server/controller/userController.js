@@ -5,7 +5,7 @@ const jwt = require('jsonwebtoken');
 const userController = {};
 
 userController.registerUser = async (req, res, next) => {
-    const { name, email, password, pet_ids } = req.body;
+    const { name, email, password } = req.body;
 
     if (!name || !email || !password) {
         return res.json('Invalid information provided');
@@ -30,11 +30,12 @@ userController.registerUser = async (req, res, next) => {
         user_email,
         user_password)
         VALUES ($1, $2, $3)
-        RETURNING owner_id;`
+        RETURNING *;`
 
         const values = [name, email, bcryptPassword];
 
         const newUser = await pool.query(createUser, values);
+
         // const owner_id = newUser.rows[0].owner_id;
 
         // const insertOwnerPetQuery = `
@@ -46,7 +47,10 @@ userController.registerUser = async (req, res, next) => {
         //     console.log(pet_ids[i]);
         // }
 
-        res.locals.user = newUser.rows;
+        const token = generateToken(newUser.rows[0].owner_id);
+        res.json({ token });
+
+        // res.locals.user = newUser.rows;
         return next();
     } catch (error) {
         return next({
@@ -60,18 +64,20 @@ userController.registerUser = async (req, res, next) => {
 }
 
 userController.authenticateUser = async (req, res, next) => {
-    const token = req.headers.authorization;
-
-    if (!token) {
-        return res.status(401).json({ message: 'Unauthorized: Token not provided' });
-    }
-
     try {
+
+        const token = req.header('token');
+
+        if (!token) {
+            return res.status(403).json({ message: 'Unauthorized: Token not provided' });
+        }
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        req.user = decoded.userId;
+        req.user = decoded.user;
         return next();
+
     } catch (error) {
-        return res.status(401).json({ message: 'Unauthorized: Invalid token' });
+        return res.status(403).json({ message: 'Unauthorized: Invalid token' });
     }
 }
 
@@ -89,15 +95,22 @@ userController.loginUser = async (req, res, next) => {
             return res.status(401).send('Invalid email or password');
         }
 
-        const user = userResult.rows[0];
-        const isPasswordValid = await bcrypt.compare(password, user.user_password);
+        const isPasswordValid = await bcrypt.compare(password, userResult.rows[0].user_password);
 
         if (!isPasswordValid) {
             return res.status(401).send('Invalid email or password');
         }
 
-        const token = generateToken(user);
-        res.json({ token });
+        const token = generateToken(userResult.rows[0].owner_id);
+        // res.json({ token });
+
+        console.log('req.body in login', req.body);
+
+        // res.locals.ownerInfo = userResult.rows[0]
+        // console.log('ownerinfo in userController login', res.locals.ownerInfo);
+        req.session.ownerInfo = userResult.rows[0];
+        console.log('sesison', req.session.ownerInfo);
+
         return next();
     } catch (error) {
         return next({
@@ -110,11 +123,40 @@ userController.loginUser = async (req, res, next) => {
     }
 };
 
-function generateToken(user) {
-    const payload = { userId: user.owner_id, userEmail: user.user_email };
+function generateToken(owner_id) {
+    const payload = { user: owner_id };
     const secretKey = process.env.JWT_SECRET;
-    const token = jwt.sign(payload, secretKey, { expiresIn: '1h' });
+    const token = jwt.sign(payload, secretKey, { expiresIn: '2m' });
     return token;
+}
+
+
+userController.verifyToken = async (req, res, next) => {
+    try {
+        res.json(true);
+        return next();
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).send('Server Error in userController.verifyToken');
+    }
+};
+
+userController.getUser = async (req, res, next) => {
+    console.log('req', req)
+    // console.log('req body', req.body)
+
+    try {
+        const user = await pool.query(`SELECT * FROM owner
+        WHERE owner_id = $1`, [e]);
+
+        res.locals.ownerInfo = user.rows[0]
+        console.log('rows', res.locals.ownerInfo);
+        return next();
+
+    } catch (error) {
+        console.error(error.message);
+        res.status(500).json('Server Error in userController.getUser')
+    }
 }
 
 module.exports = userController;

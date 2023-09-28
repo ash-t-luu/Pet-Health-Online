@@ -4,14 +4,42 @@ export const fetchPetDataCreator = () => {
     return async (dispatch) => {
         try {
             dispatch({ type: types.FETCH_PET_DATA });
-            const res = await fetch('/pets');
-            const data = await res.json();
-            dispatch({ type: types.FETCH_PET_DATA_SUCCESS, payload: data });
+            const response = await fetch('/pets', {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const petsData = await response.json();
+            console.log('data in action: pets ', petsData)
+            dispatch({ type: types.FETCH_PET_DATA_SUCCESS, payload: petsData });
         } catch (error) {
             dispatch({ type: types.FETCH_PET_DATA_ERROR, payload: error });
         }
     };
 };
+
+
+export const fetchHealthRecords = (id) => {
+    return async (dispatch) => {
+        try {
+            dispatch({ type: types.FETCH_HEALTH_RECORDS });
+            const response = await fetch(`/pets/pet-records/${id}`, {
+                method: 'GET',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+            });
+
+            const recordData = await response.json();
+            console.log('data in action: records ', recordData)
+            dispatch({ type: types.FETCH_HEALTH_RECORDS_SUCCESS, payload: recordData });
+        } catch (error) {
+            dispatch({ type: types.FETCH_HEALTH_RECORDS_ERROR, payload: error });
+        }
+    }
+}
 
 export const addPetCreator = data => ({
     type: types.ADD_PET,

@@ -4,17 +4,17 @@ import AddPetForm from '../components/AddPet.jsx';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchPetDataCreator } from '../actions/actions.js';
 
-const Dashboard = props => {
+const Dashboard = () => {
     const dispatch = useDispatch();
     const pets = useSelector((state) => state.pets.pets);
     const isLoadingPets = useSelector((state) => state.pets.isLoadingPets);
+
 
     useEffect(() => {
         dispatch(fetchPetDataCreator());
     }, [dispatch]);
 
-    // console.log('state: ', state);
-    // console.log('pets list:', pets);
+    console.log('pets list:', pets);
 
     const petList = [];
     for (let i = 0; i < pets.length; i++) {
@@ -36,12 +36,10 @@ const Dashboard = props => {
         return <div>Loading Pets...</div>
     }
 
-
-
     return (
         <div className='pets-container'>
             <h1>Your Pets</h1>
-            <AddPetForm className='add-pet' />
+            {/* <AddPetForm className='add-pet' /> */}
             <div className='petsDisplay'>
                 {petList}
             </div>

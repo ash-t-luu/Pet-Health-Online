@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import { useNavigate, Link } from 'react-router-dom';
-import Register from './Register.jsx';
+import { fetchPetDataCreator } from '../actions/actions.js';
 
 import '../scss/App.scss';
 
@@ -12,6 +13,8 @@ const Login = () => {
     });
 
     const navigate = useNavigate();
+    const dispatch = useDispatch();
+
 
     // Handle input change and update the state
     const handleInputChange = (event) => {
@@ -35,15 +38,13 @@ const Login = () => {
                 body: JSON.stringify(formData),
             });
 
-            console.log('response: ', response);
-
             if (response.ok) {
-                // Authentication was successful
-                // You can redirect the user to the dashboard or perform any other actions
+                const responseData = await response.json();
+                console.log('response in login fe: ', responseData);
+
+                dispatch(fetchPetDataCreator(responseData));
                 navigate('/dashboard');
-                // history.push('/dashboard'); // Assuming you're using React Router
             } else {
-                // Handle authentication failure, e.g., show an error message
                 console.error('Login failed');
             }
         } catch (error) {
@@ -56,7 +57,6 @@ const Login = () => {
             <div className='title'>Login</div>
             <form onSubmit={handleSubmit}>
                 <div className='field'>
-                    {/* <label htmlFor="email">Email:</label> */}
                     <input
                         type="text"
                         id="email"
@@ -67,7 +67,6 @@ const Login = () => {
                     />
                 </div>
                 <div className='field'>
-                    {/* <label htmlFor="password">Password:</label> */}
                     <input
                         type="password"
                         id="password"
@@ -89,3 +88,8 @@ const Login = () => {
 };
 
 export default Login;
+
+
+// const res = await fetch('/pets');
+// const data = await res.json();
+// dispatch(fetchPetDataCreator(data));

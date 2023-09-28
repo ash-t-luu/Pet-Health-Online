@@ -2,8 +2,8 @@ import * as types from '../constants/actionTypes';
 
 const initialState = {
     pets: [],
+    healthRecords: [],
     isLoadingPets: false,
-    // petError: null,
     isAuthenticated: false,
     user: null,
     error: null
@@ -22,7 +22,24 @@ const petsReducer = (state = initialState, action) => {
         }
 
         case types.FETCH_PET_DATA_ERROR: {
-            return { ...state, isLoadingPets: false, error: action.payload };
+            return { ...state, isLoadingPets: false, error: action.payload.error };
+        }
+
+        case types.FETCH_HEALTH_RECORDS: {
+            return { ...state, isLoadingPets: true, error: null };
+        }
+
+        case types.FETCH_HEALTH_RECORDS_SUCCESS: {
+            const { id, healthRecords } = action.payload;
+            const updatedRecords = {
+                ...state.healthRecords,
+                [id]: healthRecords,
+            };
+            return { ...state, isLoadingPets: false, healthRecords: updatedRecords };
+        }
+
+        case types.FETCH_HEALTH_RECORDS_ERROR: {
+            return { ...state, isLoadingPets: false, error: action.payload.error };
         }
 
         case types.ADD_PET: {

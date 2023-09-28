@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider, useParams, Navigate, Redirect } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard.jsx';
 import Login from '../pages/Login.jsx';
@@ -15,28 +15,45 @@ import '../scss/App.scss';
 import RootLayout from '../layout/rootLayout.js';
 import RecordsLayout from '../layout/recordsLayout.js';
 import HomeLayout from '../layout/homeLayout.js';
-import PetContainer from '../containers/PetContainers.jsx';
 import RegisterLayout from '../layout/registerLayout.js';
 
-const router = createBrowserRouter(
-    createRoutesFromElements(
+//auth
+import CheckAuthenticated from './Auth.jsx';
 
-        <Route path='/'>
-            <Route path='/' element={<HomeLayout />}></Route>
-            <Route path='register' element={<Register />}></Route>
-
-            <Route path='dashboard' element={<RootLayout />}>
-                <Route index element={<Dashboard />} />
-                <Route path='pet-records' element={<RecordsLayout />}>
-                    <Route path='pet-health' element={<Pet_Health />}></Route>
-                </Route>
-            </Route >
-            <Route path='*' element={<NotFound />}></Route>
-        </Route >
-    )
-);
 
 const App = () => {
+    // const isAuthenticated = CheckAuthenticated();
+    // let { id } = useParams();
+
+    const router = createBrowserRouter(
+        createRoutesFromElements(
+
+            <Route path='/'>
+                <Route path='/' element={<HomeLayout />}>
+                </Route>
+
+                <Route path='register' element={<Register />}></Route>
+
+                {/* <Route path='register' element={isAuthenticated ? <Navigate to='/dashboard' replace={true} /> : <Register />}></Route> */}
+
+                {/* {isAuthenticated && (
+                    <> */}
+                <Route path='/dashboard' element={<RootLayout />}>
+
+                    <Route index element={<Dashboard />} />
+
+                    <Route path='pet-records' element={<RecordsLayout />}>
+
+                        <Route path='pet-records/:id' element={<Pet_Records />}></Route>
+
+                    </Route>
+                </Route >
+                <Route path='*' element={<NotFound />}></Route>
+                {/* </>
+                )} */}
+            </Route >
+        )
+    );
 
     return (
         <div>

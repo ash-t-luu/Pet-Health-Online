@@ -3,21 +3,36 @@ const pool = require('../db/connectToDb');
 const petController = {};
 
 petController.getPets = async (req, res, next) => {
-    const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet`;
+    let owner_id = req.session.ownerInfo.owner_id;
+
+    const email = req.body.email;
+
+    console.log('owner_id in petcontroller', owner_id);
+    console.log('email in getpets', email);
+
+    //iterate through ownerInfoArray using for loop
 
     try {
-        //await query to return promise
-        const result = await pool.query(petData);
+        // for (let i = 0; i < ownerInfoArray.length; i++) {
+        //     if (email === ownerInfoArray[i].user_email) {
+        //         owner_id = ownerInfoArray[i].owner_id;
+        //         console.log('owner_id in loop', owner_id);
+        //     }
+        // }
+
+        console.log('ownerid after loop', owner_id);
+
+        const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet WHERE owner_id = $1`;
+        const result = await pool.query(petData, [owner_id]);
 
         if (result.rowCount === 0) {
-            res.status(404).json({ error: "No pets found" });
+            return res.status(404).json({ error: "No pets found" });
         }
-        //do something with this and store on res.locals
+
         res.locals.petInfo = result.rows;
-        //return next 
+
         return next();
     } catch (error) {
-        //return global error with specific pieces involved 
         return next({
             log: `petController.getPets: ERROR: ${error}`,
             message: {
@@ -27,6 +42,10 @@ petController.getPets = async (req, res, next) => {
         });
     }
 };
+// if (!owner_id) {
+//     console.error('Owner information not found');
+//     return res.status(500).json({ error: 'Internal Server Error' });
+// }
 
 petController.addPet = async (req, res, next) => {
     //destructure given attributes to req.body
