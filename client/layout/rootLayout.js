@@ -1,7 +1,8 @@
 import React from 'react';
-import { NavLink, Outlet } from 'react-router-dom';
+import { NavLink, Outlet, useNavigate } from 'react-router-dom';
 
 const RootLayout = () => {
+    // const navigate = useNavigate();
 
     const logout = (e) => {
         e.preventDefault();
@@ -11,11 +12,11 @@ const RootLayout = () => {
     return (
         <div className="root-layout">
             <header>
-                <nav>
-                    <h1>Homepage</h1>
-                    <NavLink index>Dashboard</NavLink>
-                    <NavLink to="pet-records">Pet Records</NavLink>
-                    <button className='btn btn-logout' onClick={e => logout(e)}>Logout</button>
+                <nav className='nav-bar'>
+                    <h1>Pet Health Online</h1>
+                    <NavLink to='/dashboard'>Dashboard</NavLink>
+                    <NavLink to="/pet-records">Pet Records</NavLink>
+                    <button className='logout-btn' onClick={e => logout(e)}>Logout</button>
                 </nav>
             </header>
 

@@ -21,11 +21,11 @@ export const fetchPetDataCreator = () => {
 };
 
 
-export const fetchHealthRecords = (id) => {
+export const fetchHealthRecords = () => {
     return async (dispatch) => {
         try {
             dispatch({ type: types.FETCH_HEALTH_RECORDS });
-            const response = await fetch(`/pets/pet-records/${id}`, {
+            const response = await fetch('/pets/pet-records', {
                 method: 'GET',
                 headers: {
                     'Content-Type': 'application/json',

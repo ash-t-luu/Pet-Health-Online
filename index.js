@@ -13,26 +13,29 @@ const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
 
 const app = express();
+app.use(cookieParser());
+
+// app.use(session({
+//     secret: process.env.SESSION_SECRET,
+//     // resave: false,
+//     saveUninitialized: true,
+//     cookie: {
+//         secure: false
+//     }
+// }))
 
 const PORT = process.env.PORT || 4000;
 const routeHandlers = require('./server/middleware/routes');
 
 /* configurations for middlewares funcs */
-
 app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
-app.use(cookieParser());
 app.use(bodyParser.json());
-app.use(session({
-    secret: process.env.SESSION_SECRET,
-    resave: false,
-    saveUninitialized: true,
-}))
 
 // handle req for static files using path.resolve
-app.use('/public', express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public')));
 
 // app.use('/dist', express.static(path.join(__dirname, 'dist')));
 

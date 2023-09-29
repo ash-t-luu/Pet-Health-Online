@@ -30,12 +30,8 @@ const petsReducer = (state = initialState, action) => {
         }
 
         case types.FETCH_HEALTH_RECORDS_SUCCESS: {
-            const { id, healthRecords } = action.payload;
-            const updatedRecords = {
-                ...state.healthRecords,
-                [id]: healthRecords,
-            };
-            return { ...state, isLoadingPets: false, healthRecords: updatedRecords };
+            console.log('fetch data records:', state.healthRecords)
+            return { ...state, healthRecords: [...action.payload], isLoadingPets: false };
         }
 
         case types.FETCH_HEALTH_RECORDS_ERROR: {
@@ -47,7 +43,6 @@ const petsReducer = (state = initialState, action) => {
         }
 
         case types.UPDATE_PET: {
-            //get pet by id
             const updatedPet = action.payload;
             return {
                 ...state, pets: state.pets.map((pet) =>
@@ -56,7 +51,6 @@ const petsReducer = (state = initialState, action) => {
         }
 
         case types.DELETE_PET: {
-            //get pet by id
             console.log("Deleting pet with pet_id:", action.payload);
             console.log("Current state.pets:", state.pets);
 

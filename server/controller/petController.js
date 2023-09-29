@@ -3,25 +3,11 @@ const pool = require('../db/connectToDb');
 const petController = {};
 
 petController.getPets = async (req, res, next) => {
-    let owner_id = req.session.ownerInfo.owner_id;
-
-    const email = req.body.email;
-
-    console.log('owner_id in petcontroller', owner_id);
-    console.log('email in getpets', email);
-
-    //iterate through ownerInfoArray using for loop
+    // let owner_id = req.session.ownerInfo.owner_id;
+    // console.log('req.cookies in pet controller', req.cookies.loginCookie);
+    const owner_id = req.cookies.loginCookie.owner_id;
 
     try {
-        // for (let i = 0; i < ownerInfoArray.length; i++) {
-        //     if (email === ownerInfoArray[i].user_email) {
-        //         owner_id = ownerInfoArray[i].owner_id;
-        //         console.log('owner_id in loop', owner_id);
-        //     }
-        // }
-
-        console.log('ownerid after loop', owner_id);
-
         const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet WHERE owner_id = $1`;
         const result = await pool.query(petData, [owner_id]);
 
@@ -42,16 +28,10 @@ petController.getPets = async (req, res, next) => {
         });
     }
 };
-// if (!owner_id) {
-//     console.error('Owner information not found');
-//     return res.status(500).json({ error: 'Internal Server Error' });
-// }
 
 petController.addPet = async (req, res, next) => {
-    //destructure given attributes to req.body
     const { name, dob, age, species, breed, gender, weight_lb } = req.body;
 
-    //edge cases if none are added
     if (!name || !dob || !age || !species || !breed || !gender || !weight_lb) {
         return next({
             log: 'Missing data in petController.addPet',
@@ -62,19 +42,15 @@ petController.addPet = async (req, res, next) => {
         });
     };
 
-    //db query - insert into
     const createPet = `INSERT INTO pet (name, dob, age, species, breed, gender, weight_lb)
     VALUES ($1, $2, $3, $4, $5, $6, $7);`
     const values = [name, dob, age, species, breed, gender, weight_lb];
-    //and array of values - using $1
 
     try {
         const result = await pool.query(createPet, values);
-        // result.release();
         res.locals.newPet = result.rows;
         return next();
     } catch (error) {
-        //return global error with specific pieces involved
         return next({
             log: `petController.addPet: ERROR: ${error}`,
             message: {
@@ -149,5 +125,12 @@ petController.deletePet = async (req, res, next) => {
         });
     }
 }
+
+// for (let i = 0; i < ownerInfoArray.length; i++) {
+//     if (email === ownerInfoArray[i].user_email) {
+//         owner_id = ownerInfoArray[i].owner_id;
+//         console.log('owner_id in loop', owner_id);
+//     }
+// }
 
 module.exports = petController;

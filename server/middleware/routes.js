@@ -2,7 +2,6 @@ const express = require('express');
 
 const petController = require('../controller/petController');
 const userController = require('../controller/userController');
-const setOwnerData = require('../controller/setOwnerInfo');
 const healthController = require('../controller/healthController');
 
 const router = express.Router();
@@ -11,9 +10,12 @@ const router = express.Router();
 
 // get all pets
 router.get('/', petController.getPets, (req, res) => {
-    console.log('res in router.get /', res.locals);
     return res.status(200).json(res.locals.petInfo);
 });
+
+router.get('/pet-records', healthController.getRecords, (req, res) => {
+    return res.status(200).json(res.locals.records);
+})
 
 // // create a pet
 // router.post('/add-pet', petController.addPet, (req, res) => {
@@ -28,10 +30,9 @@ router.get('/', petController.getPets, (req, res) => {
 //     return res.status(204).send('Success: Deleted Pet');
 // });
 
+
+
 /* FUNCTIONALITY FOR HEALTH RECORDS */
-router.get('/pet-records/:id', healthController.getRecords, (req, res) => {
-    return res.status(200).json(res.locals.records);
-});
 
 /* AUTHENTICATION FUNCTIONALITY TO LOGIN  */
 
@@ -45,9 +46,7 @@ router.post('/register',
 
 router.post('/login',
     userController.loginUser,
-    petController.getPets,
     (req, res) => {
-        console.log('res locals in /login', res.locals.petInfo)
         return res.status(200).json('Login success');
     });
 

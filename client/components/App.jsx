@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider, useParams, Navigate, Redirect } from 'react-router-dom';
+import { createBrowserRouter, Route, createRoutesFromElements, RouterProvider } from 'react-router-dom';
 
 import Dashboard from '../pages/Dashboard.jsx';
 import Login from '../pages/Login.jsx';
@@ -23,34 +23,19 @@ import CheckAuthenticated from './Auth.jsx';
 
 const App = () => {
     // const isAuthenticated = CheckAuthenticated();
-    // let { id } = useParams();
 
     const router = createBrowserRouter(
         createRoutesFromElements(
 
             <Route path='/'>
-                <Route path='/' element={<HomeLayout />}>
+                <Route path='/' element={<HomeLayout />} />
+                <Route path='register' element={<Register />} />
+                <Route path='/' element={<RootLayout />}>
+                    <Route path='/dashboard' element={<Dashboard />} />
+                    {/* <Route path='/pet-records' element={<RecordsLayout />} /> */}
+                    <Route path='/pet-records' element={<Pet_Records />} />
+                    {/* <Route path='/pet-records/:id' element={<Pet_Health />}></Route> */}
                 </Route>
-
-                <Route path='register' element={<Register />}></Route>
-
-                {/* <Route path='register' element={isAuthenticated ? <Navigate to='/dashboard' replace={true} /> : <Register />}></Route> */}
-
-                {/* {isAuthenticated && (
-                    <> */}
-                <Route path='/dashboard' element={<RootLayout />}>
-
-                    <Route index element={<Dashboard />} />
-
-                    <Route path='pet-records' element={<RecordsLayout />}>
-
-                        <Route path='pet-records/:id' element={<Pet_Records />}></Route>
-
-                    </Route>
-                </Route >
-                <Route path='*' element={<NotFound />}></Route>
-                {/* </>
-                )} */}
             </Route >
         )
     );
@@ -61,5 +46,28 @@ const App = () => {
         </div>
     );
 };
+
+{/* <Route index element={<HomeLayout />}></Route>
+
+                <Route path='register' element={<Register />}></Route>
+
+                {/* <Route path='register' element={isAuthenticated ? <Navigate to='/dashboard' replace={true} /> : <Register />}></Route> */}
+
+{/* {isAuthenticated && (
+                    <> */}
+{/* <Route path='/' element={<RootLayout />}>
+
+                    <Route path='/dashboard' element={<Dashboard />} />
+
+                    <Route path='/pet-records' element={<RecordsLayout />}>
+
+                        <Route path='/pet-records/:id' element={<Pet_Records />}>
+                        </Route> */}
+
+{/* </Route> */ }
+{/* </Route > */ }
+{/* <Route path='*' element={<NotFound />}></Route> */ }
+{/* </>
+                )} */}
 
 export default App;

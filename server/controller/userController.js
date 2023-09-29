@@ -36,17 +36,6 @@ userController.registerUser = async (req, res, next) => {
 
         const newUser = await pool.query(createUser, values);
 
-        // const owner_id = newUser.rows[0].owner_id;
-
-        // const insertOwnerPetQuery = `
-        //     INSERT INTO owner_pet (owner_id, pet_id)
-        //     VALUES ($1, $2);`;
-
-        // for (let i = 0; i < pet_ids.length; i++) {
-        //     await pool.query(insertOwnerPetQuery, [owner_id, pet_ids[i]]);
-        //     console.log(pet_ids[i]);
-        // }
-
         const token = generateToken(newUser.rows[0].owner_id);
         res.json({ token });
 
@@ -104,12 +93,9 @@ userController.loginUser = async (req, res, next) => {
         const token = generateToken(userResult.rows[0].owner_id);
         // res.json({ token });
 
-        console.log('req.body in login', req.body);
+        // req.session.ownerInfo = userResult.rows[0];
 
-        // res.locals.ownerInfo = userResult.rows[0]
-        // console.log('ownerinfo in userController login', res.locals.ownerInfo);
-        req.session.ownerInfo = userResult.rows[0];
-        console.log('sesison', req.session.ownerInfo);
+        res.cookie('loginCookie', userResult.rows[0], { httpOnly: true });
 
         return next();
     } catch (error) {

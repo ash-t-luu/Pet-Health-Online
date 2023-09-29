@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect } from 'react';
 import Pets from './Pets.jsx';
 import AddPetForm from '../components/AddPet.jsx';
 import { useDispatch, useSelector } from 'react-redux';
@@ -30,6 +30,10 @@ const Dashboard = () => {
                 weight_lb={pets[i].weight_lb}
             />
         );
+    }
+
+    if (pets.length === 0) {
+        return <h3 className='no-data'>No Pets Found</h3>
     }
 
     if (isLoadingPets) {
