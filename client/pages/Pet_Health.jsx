@@ -14,7 +14,7 @@ const Pet_Health = (props) => {
                     <span className='data-title'>Date Visit</span>
                     <p id='formatted_date_visit' className='data-list'>{props.formatted_date_visit}</p>
                 </div>
-                <div className='data-names'>
+                <div className='three'>
                     <span className='data-title'>Description</span>
                     <p id='description' className='data-list' style={{ whiteSpace: 'pre-line' }}>{props.description}</p>
                 </div>

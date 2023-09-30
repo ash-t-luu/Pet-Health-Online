@@ -19,6 +19,7 @@ const Pet_Records = () => {
     for (let i = 0; i < records.length; i++) {
         recordList.push(
             <Pet_Health
+                key={records[i].hr_id}
                 hr_id={records[i].hr_id}
                 formatted_date_visit={records[i].formatted_date_visit}
                 description={records[i].description}

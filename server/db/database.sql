@@ -115,7 +115,7 @@ INSERT INTO health_record (date_visit, description, pet_id, due_date_shots) VALU
 ('2022-05-27', E'Annual Check Up\nConvenia Inj\nApoquel 5.4mg\nEar cleaning and medication\nClaro (1pk)\nTonometry (glaucoma check up)', 1, E'Rabies (3 Year) - 03/26/2023\nBordetella (annual) - 02/11/2023');
 
 INSERT INTO health_record (date_visit, description, pet_id, due_date_shots) VALUES 
-('2015-07-15', E'Annual Check Up\nIvermectin (0.2 mg/kg)\nMetronidazole\n', 16, E'Up to date');
+('2015-07-15', E'Annual Check Up\nIvermectin (0.2 mg/kg)\nMetronidazole\n', 18, E'Up to date');
 
 ALTER TABLE pet
 ADD COLUMN owner_id INTEGER;

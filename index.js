@@ -70,9 +70,9 @@ app.post('/pets/dashboard/upload/:pet_id', upload.single('image'), async (req, r
     const query = `UPDATE pet SET image = $1 WHERE pet_id = $2`;
 
     try {
-        await pool.query(query, [image, id]);
-        // return res.json({ Status: 'Image Upload Success' });
-        return res.redirect('/pets')
+        const result = await pool.query(query, [image, id]);
+        return res.json({ pets: result });
+        // return res.redirect('/pets')
     } catch (error) {
         return next({
             log: `petController.addImage: ERROR: ${error}`,
@@ -83,20 +83,6 @@ app.post('/pets/dashboard/upload/:pet_id', upload.single('image'), async (req, r
         });
     }
 });
-
-// app.get('/pets/dashboard/:pet_id', async (req, res) => {
-//     const id = req.params.pet_id;
-
-//     const query = `SELECT image FROM pet WHERE pet_id = $1`;
-
-//     try {
-//         const res = await pool.query(query, [id]);
-//         console.log('res in get', res);
-//         // return res.json({ image: imageUrl})
-//     } catch (error) {
-
-//     }
-// })
 
 // app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 

@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { fetchPetDataCreator } from '../actions/actions';
 import { deletePetCreator, updatePetImage } from '../actions/actions';
+import { data } from 'autoprefixer';
 
 const Pets = props => {
 
@@ -32,6 +34,9 @@ const Pets = props => {
 
     const dispatch = useDispatch();
     const [file, setFile] = useState();
+    const [, forceUpdate] = useState();
+    const [uploadImg, setUploadImg] = useState(props.image);
+
 
     const handleFile = (e) => {
         e.preventDefault();
@@ -51,10 +56,9 @@ const Pets = props => {
                 });
 
                 if (res.ok) {
-                    // const newImg = await res.json();
-                    // console.log('res in pets img', newImg);
-                    // dispatch(updatePetImage(props.pet_id, newImg));
                     alert('File Uploaded Successfully');
+                    setUploadImg(file.filename);
+                    dispatch(fetchPetDataCreator());
                 } else {
                     console.error('File Upload Failed');
                 }
@@ -64,15 +68,21 @@ const Pets = props => {
         }
     }
 
+    useEffect(() => {
+        if (props.image !== uploadImg) {
+            setUploadImg(props.image);
+        }
+    }, [props.image, uploadImg]);
+
     return (
         <>
             <div>
                 <div key={props.pet_id} id="innerPetsDisplay">
-                    {!props.image && (<form encType="multipart/form-data" method='post' className='form-img'>
+                    {!uploadImg && (<form encType="multipart/form-data" method='post' className='form-img'>
                         <input type='file' name='image' onChange={handleFile}></input>
                         <button onClick={handleUpload} className='img-btn'>Upload</button>
                     </form>)}
-                    {props.image && <img src={`/images/${props.image}`} alt={`${props.name} Image`} className='imgSize' />}
+                    {uploadImg && <img src={`/images/${uploadImg}`} alt={`${props.name} Image`} className='imgSize' />}
                     <p>
                         <label htmlFor='name'>NAME: </label>
                         <span id="petName">{props.name}</span>
@@ -109,11 +119,5 @@ const Pets = props => {
         </>
     );
 };
-
-// // loader function 
-// export const petLoader = async () => {
-//     const result = await fetch('http://localhost:5000/pets');
-//     return result.json();
-// }
 
 export default Pets;

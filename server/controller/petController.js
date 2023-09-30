@@ -3,13 +3,10 @@ const pool = require('../db/connectToDb');
 const petController = {};
 
 petController.getPets = async (req, res, next) => {
-    // let owner_id = req.session.ownerInfo.owner_id;
-    // console.log('req.cookies in pet controller', req.cookies.loginCookie);
+
     const owner_id = req.cookies.loginCookie.owner_id;
 
     try {
-        // const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet WHERE owner_id = $1`;
-
         const petData = `SELECT *,
         TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob,
         user_name
@@ -69,28 +66,6 @@ petController.addPet = async (req, res, next) => {
     }
 };
 
-// petController.addImage = async (req, res, next) => {
-//     const image = req.file.filename;
-//     const id = req.params.pet_id;
-//     console.log('image filename in petcontroller', image)
-//     console.log('id in petcontroller', id)
-
-//     const query = `UPDATE pet SET image = $1 WHERE pet_id = $2`;
-
-//     try {
-//         await pool.query(query, [image, id]);
-//         return res.json({ Status: 'Image Upload Success' });
-//     } catch (error) {
-//         return next({
-//             log: `petController.addImage: ERROR: ${error}`,
-//             message: {
-//                 err: 'Could not add pet image in petController.addImage. Check server logs for more details.'
-//             },
-//             status: 500
-//         });
-//     }
-// }
-
 petController.updatePet = async (req, res, next) => {
     const id = req.params.id;
     const value = req.body;
@@ -134,7 +109,6 @@ petController.updatePet = async (req, res, next) => {
 
 petController.deletePet = async (req, res, next) => {
     const id = req.params.id;
-    console.log('id in backend', id);
     //this time we just want to delete the pet
     const query = `DELETE FROM pet WHERE pet_id = $1`;
 

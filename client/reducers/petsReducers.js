@@ -37,6 +37,12 @@ const petsReducer = (state = initialState, action) => {
         //     return { ...state, pets: updatedPets }
         // }
 
+        case types.LOGOUT: {
+            return {
+                ...state,
+            };
+        }
+
         case types.FETCH_HEALTH_RECORDS_SUCCESS: {
             console.log('fetch data records:', state.healthRecords)
             return { ...state, healthRecords: [...action.payload], isLoadingPets: false };

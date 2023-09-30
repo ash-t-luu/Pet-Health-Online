@@ -3,7 +3,6 @@ const pool = require('../db/connectToDb');
 const healthController = {};
 
 healthController.getRecords = async (req, res, next) => {
-    // console.log('req.cookies in get records', req.cookies.loginCookie);
 
     //select owner id from cookie and query that value to get the pet id associated with owner
     const owner_id = req.cookies.loginCookie.owner_id;
@@ -13,7 +12,6 @@ healthController.getRecords = async (req, res, next) => {
     const petIds = petRes.rows;
 
     const petIdValues = petIds.map(obj => obj.pet_id);
-    // console.log('pet obj', petIdValues);
 
     // const placeholders = petIdValues.map((_, index) => `$${index + 1}`).join(', ');
     // console.log('pet placeholder', placeholders);
@@ -25,7 +23,7 @@ healthController.getRecords = async (req, res, next) => {
     FROM health_record
     INNER JOIN pet USING (pet_id)
     WHERE pet_id = ANY($1::integer[])
-    ORDER BY formatted_date_visit ASC;`;
+    ORDER BY date_visit DESC;`;
 
     try {
         const result = await pool.query(recordData, [petIdValues]);

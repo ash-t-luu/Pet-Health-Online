@@ -12,9 +12,10 @@ const Login = () => {
         password: '',
     });
 
+    // const [errorMsg, setErrorMsg] = useState({});
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
-
 
     // Handle input change and update the state
     const handleInputChange = (event) => {
@@ -24,6 +25,10 @@ const Login = () => {
             [name]: value,
         });
     };
+
+    // const errors = {
+    //     uname: 'Invalid password or username',
+    // };
 
     // Handle form submission
     const handleSubmit = async (event) => {
@@ -45,12 +50,20 @@ const Login = () => {
                 dispatch(fetchPetDataCreator(responseData));
                 navigate('/dashboard');
             } else {
+                // setErrorMsg({ name: 'uname',message: errors.uname });
+                alert('Invalid password or email');
                 console.error('Login failed');
             }
         } catch (error) {
             console.error('Login fetch /login: ERROR: ', error);
         }
     };
+
+    // const renderErrorMsg = (name) => {
+    //     name === errorMsg.name && (
+    //         <div className='error'>{errorMsg.message}</div>
+    //     )
+    // }
 
     return (
         <div className='wrapper'>
@@ -64,6 +77,7 @@ const Login = () => {
                         placeholder='Email:'
                         value={formData.email}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className='field'>
@@ -74,6 +88,7 @@ const Login = () => {
                         placeholder='Password:'
                         value={formData.password}
                         onChange={handleInputChange}
+                        required
                     />
                 </div>
                 <div className="field">

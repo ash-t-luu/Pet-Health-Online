@@ -8,6 +8,8 @@ export const FETCH_HEALTH_RECORDS_ERROR = 'FETCH_HEALTH_RECORDS_ERROR';
 
 export const FETCH_PET_IMAGE = 'FETCH_PET_IMAGE';
 
+export const LOGOUT = 'LOGOUT';
+
 export const ADD_PET = 'ADD_PET';
 export const UPDATE_PET = 'UPDATE_PET';
 export const DELETE_PET = 'DELETE_PET';

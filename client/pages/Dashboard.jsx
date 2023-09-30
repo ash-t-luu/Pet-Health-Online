@@ -16,25 +16,29 @@ const Dashboard = () => {
     // }, [dispatch]);
 
     useEffect(() => {
-        if (!isLoadingPets) {
+        if (isLoadingPets) {
             dispatch(fetchPetDataCreator());
         }
     }, [dispatch, isLoadingPets]);
 
-    const [shouldFetchPets, setShouldFetchPets] = useState(false);
+    // const [shouldFetchPets, setShouldFetchPets] = useState(false);
 
-    useEffect(() => {
-        if (shouldFetchPets && !isLoadingPets) {
-            dispatch(fetchPetDataCreator());
-            setShouldFetchPets(false);
-        }
-    }, [dispatch, shouldFetchPets, isLoadingPets]);
+    // useEffect(() => {
+    //     if (shouldFetchPets && !isLoadingPets) {
+    //         dispatch(fetchPetDataCreator());
+    //         setShouldFetchPets(false);
+    //     }
+    // }, [dispatch, shouldFetchPets, isLoadingPets]);
 
+    // if (pets.length === 0) {
+    //     return <h3 className='no-data'>No Pets Found</h3>
+    // }
 
     const petList = [];
     for (let i = 0; i < pets.length; i++) {
         petList.push(
             <Pets
+                key={pets[i].pet_id}
                 pet_id={pets[i].pet_id}
                 name={pets[i].name}
                 species={pets[i].species}
@@ -53,14 +57,12 @@ const Dashboard = () => {
     //     return <div>Loading Pets...</div>
     // }
 
-    if (pets.length === 0) {
-        return <h3 className='no-data'>No Pets Found</h3>
-    }
-
     return (
         <div className='pets-container'>
-            <p id='name-tag'>Welcome {pets[0].user_name},</p>
-            <h1>Your Pets</h1>
+            {pets.length > 0 &&
+                (<><p id='name-tag'>Welcome {pets[0].user_name},</p>
+                    <h1>Your Pets</h1></>)}
+            {pets.length === 0 && <h3 className='no-data'>No Pets Found</h3>}
             {/* <AddPetForm className='add-pet' /> */}
             <div className='petsDisplay'>
                 {petList}

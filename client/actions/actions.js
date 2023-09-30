@@ -46,6 +46,10 @@ export const updatePetImage = (petId, newImage) => ({
     payload: { petId, newImage }
 });
 
+export const logOutAction = () => ({
+    type: 'LOGOUT'
+});
+
 export const addPetCreator = data => ({
     type: types.ADD_PET,
     payload: data,

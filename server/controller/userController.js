@@ -90,10 +90,8 @@ userController.loginUser = async (req, res, next) => {
             return res.status(401).send('Invalid email or password');
         }
 
-        const token = generateToken(userResult.rows[0].owner_id);
+        // const token = generateToken(userResult.rows[0].owner_id);
         // res.json({ token });
-
-        // req.session.ownerInfo = userResult.rows[0];
 
         res.cookie('loginCookie', userResult.rows[0], { httpOnly: true });
 
@@ -128,15 +126,12 @@ userController.verifyToken = async (req, res, next) => {
 };
 
 userController.getUser = async (req, res, next) => {
-    console.log('req', req)
-    // console.log('req body', req.body)
 
     try {
         const user = await pool.query(`SELECT * FROM owner
         WHERE owner_id = $1`, [e]);
 
         res.locals.ownerInfo = user.rows[0]
-        console.log('rows', res.locals.ownerInfo);
         return next();
 
     } catch (error) {
