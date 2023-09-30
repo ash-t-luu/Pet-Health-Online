@@ -5,24 +5,16 @@ if (process.env.NODE_ENV !== 'production') {
 
 //import dependencies 
 const express = require('express');
-const session = require('express-session');
 const cors = require('cors');
 const morgan = require('morgan');
 const path = require('path');
 const cookieParser = require('cookie-parser');
 const bodyParser = require('body-parser');
+const multer = require('multer');
+const pool = require('./server/db/connectToDb');
 
 const app = express();
 app.use(cookieParser());
-
-// app.use(session({
-//     secret: process.env.SESSION_SECRET,
-//     // resave: false,
-//     saveUninitialized: true,
-//     cookie: {
-//         secure: false
-//     }
-// }))
 
 const PORT = process.env.PORT || 4000;
 const routeHandlers = require('./server/middleware/routes');
@@ -34,8 +26,30 @@ app.use(express.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(bodyParser.json());
 
+const storage = multer.diskStorage({
+    destination: (req, file, cb) => {
+        cb(null, './public/images');
+    },
+    filename: (req, file, cb) => {
+        console.log('file in route', file);
+        // cb(null, file.fieldname + '_' + Date.now() + path.extname(file.originalname));
+        cb(null, Date.now() + path.extname(file.originalname))
+    }
+});
+
+const upload = multer({
+    storage: storage,
+    limits: { fileSize: 1024 * 1024 * 5 }, // 5 MB limit (adjust as needed)
+});
+
 // handle req for static files using path.resolve
-app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, 'public'), {
+    setHeaders: (res, path) => {
+        if (path.endsWith('.jpg') || path.endsWith('.png') || path.endsWith('.jpeg')) {
+            res.setHeader('Content-Type', 'image/jpeg');
+        }
+    }
+}));
 
 // app.use('/dist', express.static(path.join(__dirname, 'dist')));
 
@@ -44,8 +58,45 @@ app.get('/', (req, res) => {
     return res.status(200).sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
-// might need to change the first param to actual path
 app.use('/pets', routeHandlers);
+
+
+app.post('/pets/dashboard/upload/:pet_id', upload.single('image'), async (req, res, next) => {
+    const image = req.file.filename;
+    const id = req.params.pet_id;
+    console.log('image filename in petcontroller', image)
+    console.log('id in petcontroller', id)
+
+    const query = `UPDATE pet SET image = $1 WHERE pet_id = $2`;
+
+    try {
+        await pool.query(query, [image, id]);
+        // return res.json({ Status: 'Image Upload Success' });
+        return res.redirect('/pets')
+    } catch (error) {
+        return next({
+            log: `petController.addImage: ERROR: ${error}`,
+            message: {
+                err: 'Could not add pet image in petController.addImage. Check server logs for more details.'
+            },
+            status: 500
+        });
+    }
+});
+
+// app.get('/pets/dashboard/:pet_id', async (req, res) => {
+//     const id = req.params.pet_id;
+
+//     const query = `SELECT image FROM pet WHERE pet_id = $1`;
+
+//     try {
+//         const res = await pool.query(query, [id]);
+//         console.log('res in get', res);
+//         // return res.json({ image: imageUrl})
+//     } catch (error) {
+
+//     }
+// })
 
 // app.use((req, res) => res.status(404).send('This is not the page you\'re looking for...'));
 

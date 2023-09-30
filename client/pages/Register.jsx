@@ -52,7 +52,7 @@ const Register = () => {
         <div className="container">
             <div className="cover">
                 <div className="front">
-                    <img src="/public/images/cat-with-human.png" alt="human carrying cat with love" />
+                    <img src="/images/cat-with-human.png" alt="human carrying cat with love" />
                     <div className="text">
                         <span className="text-1">We're here for your  <br /> furry family members</span>
                         <span className="text-2">Let's get connected.</span>

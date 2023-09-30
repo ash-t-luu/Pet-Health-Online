@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { deletePetCreator } from '../actions/actions';
+import { deletePetCreator, updatePetImage } from '../actions/actions';
 
 const Pets = props => {
 
-    // console.log('props for id:', props.pet_id)
     // const dispatch = useDispatch();
 
     //use console logs to see what im deleting
@@ -16,7 +15,6 @@ const Pets = props => {
     //         },
     //     })
     //         // .then((res) => {
-    //         //     console.log('res', res)
     //         //     if (res.status === 204) {
     //         //         // return res.send('Successful: Deleted Pet');
     //         //         return res.json();
@@ -32,11 +30,49 @@ const Pets = props => {
     //         });
     // };
 
+    const dispatch = useDispatch();
+    const [file, setFile] = useState();
+
+    const handleFile = (e) => {
+        e.preventDefault();
+        setFile(e.target.files[0]);
+    }
+
+    const handleUpload = async (e) => {
+        e.preventDefault();
+
+        if (file && props.pet_id) {
+            const formData = new FormData();
+            formData.append('image', file);
+            try {
+                const res = await fetch(`/pets/dashboard/upload/${props.pet_id}`, {
+                    method: 'POST',
+                    body: formData,
+                });
+
+                if (res.ok) {
+                    // const newImg = await res.json();
+                    // console.log('res in pets img', newImg);
+                    // dispatch(updatePetImage(props.pet_id, newImg));
+                    alert('File Uploaded Successfully');
+                } else {
+                    console.error('File Upload Failed');
+                }
+            } catch (error) {
+                console.error('Image fetch /dashboard/image: ERROR: ', error);
+            }
+        }
+    }
 
     return (
         <>
             <div>
                 <div key={props.pet_id} id="innerPetsDisplay">
+                    {!props.image && (<form encType="multipart/form-data" method='post' className='form-img'>
+                        <input type='file' name='image' onChange={handleFile}></input>
+                        <button onClick={handleUpload} className='img-btn'>Upload</button>
+                    </form>)}
+                    {props.image && <img src={`/images/${props.image}`} alt={`${props.name} Image`} className='imgSize' />}
                     <p>
                         <label htmlFor='name'>NAME: </label>
                         <span id="petName">{props.name}</span>

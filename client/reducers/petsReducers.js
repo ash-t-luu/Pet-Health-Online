@@ -29,6 +29,14 @@ const petsReducer = (state = initialState, action) => {
             return { ...state, isLoadingPets: true, error: null };
         }
 
+        // case types.FETCH_PET_IMAGE: {
+        //     const { newImage, petId } = action.payload;
+        //     const updatedPets = state.pets.pets.map((pet) =>
+        //         pet.pet_id === petId ? { ...pet, image: newImage } : pet
+        //     );
+        //     return { ...state, pets: updatedPets }
+        // }
+
         case types.FETCH_HEALTH_RECORDS_SUCCESS: {
             console.log('fetch data records:', state.healthRecords)
             return { ...state, healthRecords: [...action.payload], isLoadingPets: false };

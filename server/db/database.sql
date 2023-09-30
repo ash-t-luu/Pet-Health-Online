@@ -115,7 +115,7 @@ INSERT INTO health_record (date_visit, description, pet_id, due_date_shots) VALU
 ('2022-05-27', E'Annual Check Up\nConvenia Inj\nApoquel 5.4mg\nEar cleaning and medication\nClaro (1pk)\nTonometry (glaucoma check up)', 1, E'Rabies (3 Year) - 03/26/2023\nBordetella (annual) - 02/11/2023');
 
 INSERT INTO health_record (date_visit, description, pet_id, due_date_shots) VALUES 
-('2020-07-04', E'Annual Check Up\nEnrofloxacin Oral\nGrooming and Nail Trimming\n', 4, E'Up to date');
+('2015-07-15', E'Annual Check Up\nIvermectin (0.2 mg/kg)\nMetronidazole\n', 16, E'Up to date');
 
 ALTER TABLE pet
 ADD COLUMN owner_id INTEGER;
@@ -182,7 +182,24 @@ INSERT INTO pet (name, dob, age, species, breed, gender, weight_lb, owner_id)
 VALUES ('Jasper', '2012-05-03', '11', 'Dog', 'Pembroke Welsh Corgi', 'M', '30', '6e25e185-e169-48f1-ac21-100cc621fa99');
 
 INSERT INTO pet (name, dob, age, species, breed, gender, weight_lb, owner_id) 
-VALUES ('Sally', '2020-06-10', '3', 'Cat', 'Siamese Cat', 'F', '17', '6e25e185-e169-48f1-ac21-100cc621fa99');
+VALUES ('Flowers', '2019-05-22', '2', 'Guinea Pig', 'Short-hair Guinea', 'F', '9',  '6e25e185-e169-48f1-ac21-100cc621fa99');
 
 INSERT INTO pet (name, dob, age, species, breed, gender, weight_lb, owner_id)
-VALUES ('Lilo', '2019-06-10', '2', 'Guinea Pig', 'Long-hair Guinea', 'F', '6', '057eaacc-2d5d-49e4-89af-80319c26a2ef');
+VALUES ('Mr. Whiskers', '2011-10-23', '4', 'Capybara', 'H. hydrochaeris', 'M', '70', '057eaacc-2d5d-49e4-89af-80319c26a2ef');
+
+
+SELECT *, 
+    TO_CHAR(date_visit::date, 'MM/DD/YYYY') AS formatted_date_visit,
+    name 
+    FROM health_record
+    INNER JOIN pet USING (pet_id)
+    WHERE pet_id = ANY($1::integer[])
+    ORDER BY formatted_date_visit ASC;
+
+
+SELECT *,
+    TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob,
+    user_name
+    FROM pet
+    INNER JOIN owner USING (owner_id) 
+    WHERE owner_id = $1

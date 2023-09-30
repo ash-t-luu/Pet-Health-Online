@@ -8,7 +8,15 @@ petController.getPets = async (req, res, next) => {
     const owner_id = req.cookies.loginCookie.owner_id;
 
     try {
-        const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet WHERE owner_id = $1`;
+        // const petData = `SELECT *, TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob FROM pet WHERE owner_id = $1`;
+
+        const petData = `SELECT *,
+        TO_CHAR(dob::date, 'MM/DD/YYYY') AS formatted_dob,
+        user_name
+        FROM pet
+        INNER JOIN owner USING (owner_id) 
+        WHERE owner_id = $1`;
+
         const result = await pool.query(petData, [owner_id]);
 
         if (result.rowCount === 0) {
@@ -60,6 +68,28 @@ petController.addPet = async (req, res, next) => {
         });
     }
 };
+
+// petController.addImage = async (req, res, next) => {
+//     const image = req.file.filename;
+//     const id = req.params.pet_id;
+//     console.log('image filename in petcontroller', image)
+//     console.log('id in petcontroller', id)
+
+//     const query = `UPDATE pet SET image = $1 WHERE pet_id = $2`;
+
+//     try {
+//         await pool.query(query, [image, id]);
+//         return res.json({ Status: 'Image Upload Success' });
+//     } catch (error) {
+//         return next({
+//             log: `petController.addImage: ERROR: ${error}`,
+//             message: {
+//                 err: 'Could not add pet image in petController.addImage. Check server logs for more details.'
+//             },
+//             status: 500
+//         });
+//     }
+// }
 
 petController.updatePet = async (req, res, next) => {
     const id = req.params.id;
@@ -125,12 +155,5 @@ petController.deletePet = async (req, res, next) => {
         });
     }
 }
-
-// for (let i = 0; i < ownerInfoArray.length; i++) {
-//     if (email === ownerInfoArray[i].user_email) {
-//         owner_id = ownerInfoArray[i].owner_id;
-//         console.log('owner_id in loop', owner_id);
-//     }
-// }
 
 module.exports = petController;

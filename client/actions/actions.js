@@ -41,6 +41,11 @@ export const fetchHealthRecords = () => {
     }
 }
 
+export const updatePetImage = (petId, newImage) => ({
+    type: 'FETCH_PET_IMAGE',
+    payload: { petId, newImage }
+});
+
 export const addPetCreator = data => ({
     type: types.ADD_PET,
     payload: data,
