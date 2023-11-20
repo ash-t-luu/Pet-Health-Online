@@ -1,0 +1,2 @@
+Pet Health Online is a web application that allows you to view your pet's health records and vaccination due dates. Using MERN stack, I developed a seamless application that allows users to create an account that, upon login, will link to the medical health record database and display their pets. 
+With each pet, the database will retrieve their health records and display the data. Users can interact with the site by adding their pet's photo, built with Multer.
