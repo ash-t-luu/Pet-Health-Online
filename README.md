@@ -17,5 +17,3 @@ Streamlining the shift from traditional paper records to electronic efficiency, 
 **Demo**
 
 https://github.com/ash-t-luu/Pet-Health-Online/assets/127361061/f4e77c31-029a-412c-b313-10803b1c18e0
-
-![ezgif com-video-to-gif-converted](https://github.com/ash-t-luu/Pet-Health-Online/assets/127361061/b0be6bd9-3b5b-4230-a013-3e246fed7ec3)
