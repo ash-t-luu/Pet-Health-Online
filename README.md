@@ -1,4 +1,4 @@
-#Pet Health Online
+# Pet Health Online
 
 # __Table of Contents__
 1. [Overview](#overview)
@@ -7,11 +7,11 @@
 4. [Demo](#demo)
 5. [License](#license)
 
-##Overview 
+## Overview 
 
 Streamlining the shift from traditional paper records to electronic efficiency, Pet Health Online is a web application designed to store and manage comprehensive medical records for pets. With a user-centric approach, the platform supports one-to-many relationships, providing personalized owner profiles that seamlessly integrate detailed health records for each furry companion.
 
-##Features
+## Features
 
 ✧ **Effortless Transition**: Say goodbye to paper records. Pet Health Online facilitates a smooth transition to electronic medical records, ensuring a modern and efficient pet care experience.
 
@@ -21,10 +21,10 @@ Streamlining the shift from traditional paper records to electronic efficiency, 
 
 ✧ **User Interactivity**: Make it personal. Owners can interact with the platform by uploading their pet's images through a built-in service powered by Multer, adding a touch of individuality to each profile.
 
-##Tech Stack
+## Tech Stack
 React, Redux, Sass, Webpack, Node, Express, PostgreSQL
 
-##Demo
+## Demo
 
 https://github.com/ash-t-luu/Pet-Health-Online/assets/127361061/f4e77c31-029a-412c-b313-10803b1c18e0
 
