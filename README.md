@@ -15,4 +15,6 @@ Streamlining the shift from traditional paper records to electronic efficiency, 
 **Tech Stack**: React, Redux, Sass, Webpack, Node, Express, PostgreSQL
 
 **Demo**
-https://github.com/ash-t-luu/Pet-Health-Online/assets/127361061/3964f601-e114-469d-9aad-eac594e05e11
+
+https://github.com/ash-t-luu/Pet-Health-Online/assets/127361061/f4e77c31-029a-412c-b313-10803b1c18e0
+
