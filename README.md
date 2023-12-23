@@ -22,7 +22,7 @@ Streamlining the shift from traditional paper records to electronic efficiency, 
 ✧ **User Interactivity**: Make it personal. Owners can interact with the platform by uploading their pet's images through a built-in service powered by Multer, adding a touch of individuality to each profile.
 
 ## Tech Stack
-React, Redux, Sass, Webpack, Node, Express, PostgreSQL
+[![My Skills](https://skillicons.dev/icons?i=js,react,redux,html,sass,webpack,nodejs,express,postgres,vscode,git)](https://skillicons.dev)
 
 ## Demo
 
